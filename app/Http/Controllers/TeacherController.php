@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\DataTables\TeachersDataTable;
-use App\Models\Teachers;
+use App\DataTables\TeacherDataTable;
+use App\Models\Teacher;
 use Validator;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
@@ -14,11 +14,8 @@ class TeacherController extends Controller
 {
     public function index(Request $request)
     {
-      //$teach = Teachers::simplePaginate(10);
-      //return view('home',['teachersData'=>$teach]);
-
       if ($request->ajax()) {
-            $data = Teachers::select('id', 'fullName', 'major', 'dateHired')->get();
+            $data = Teacher::select('id', 'fullName', 'major', 'dateHired')->get();
             return Datatables::of($data)->addIndexColumn()
                 ->addColumn('action', function($data){
                     $button = '<button type="button" name="edit" id="'.$data->id.'" class="edit btn btn-primary btn-sm"> <i class="bi bi-pencil-square"></i>Edit</button>';
@@ -50,7 +47,7 @@ class TeacherController extends Controller
           'major'     =>  $request->major,
           'dateHired'     =>  $request->dateHired
         );
-        Teachers::create($form_data);
+        Teacher::create($form_data);
 
         return response()->json(['success' => 'Data Added successfully.']);
     }
@@ -59,7 +56,7 @@ class TeacherController extends Controller
     {
         if(request()->ajax())
         {
-            $data = Teachers::findOrFail($id);
+            $data = Teacher ::findOrFail($id);
             return response()->json(['result' => $data]);
         }
     }
@@ -84,14 +81,14 @@ class TeacherController extends Controller
             'dateHired'     =>  $request->dateHired
         );
 
-        Teachers::whereId($request->hidden_id)->update($form_data);
+        Teacher::whereId($request->hidden_id)->update($form_data);
 
         return response()->json(['success' => 'Data is successfully updated']);
     }
 
     public function destroy($id)
     {
-        $data = Teachers::findOrFail($id);
+        $data = Teacher::findOrFail($id);
         $data->delete();
     }
 }

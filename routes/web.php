@@ -1,6 +1,6 @@
 <?php
 use App\Http\Controllers\TeacherController;
-use App\Models\Teachers;
+use App\Models\Teacher;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -25,8 +25,8 @@ Route::get('/', function () {
     return view('home');
 });
 
-Route::get('teachers', [TeacherController::class, 'index'])->name('teachers.index');
-Route::post('teachers/store', [TeacherController::class, 'store'])->name('teachers.store');
+Route::get('teachers', [TeacherController::class, 'index'])->name('teacher.index');
+Route::post('teachers/store', [TeacherController::class, 'store'])->name('teacher.store');
 Route::get('teachers/edit/{id}/', [TeacherController::class, 'edit']);
-Route::post('teachers/update', [TeacherController::class, 'update'])->name('teachers.update');
+Route::post('teachers/update', [TeacherController::class, 'update'])->name('teacher.update');
 Route::get('teachers/destroy/{id}/', [TeacherController::class, 'destroy']);
