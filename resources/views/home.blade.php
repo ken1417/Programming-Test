@@ -49,7 +49,7 @@
             <button type="button" name="create_record" id="create_record" class="btn btn-success"> <i class="bi bi-plus-square"></i> Add</button>
         </div>
         <br />
-            <table class="table table-striped table-bordered teachers_datatable">
+            <table class="table table-striped table-bordered teacher_lists">
                 <thead>
                     <tr>
                         <th>ID</th>
@@ -100,8 +100,8 @@
                 <input type="hidden" name="hidden_id" id="hidden_id" />
             </div>
             <div class="modal-footer" >
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="window.location='{{ route("teachers.index") }}'">Close</button>
-                <input type="submit" name="action_button" id="action_button" value="Add" class="btn btn-info" o/ onclick="window.location='{{ route("teachers.index") }}'">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="window.location='{{ route("teacher.index") }}'">Close</button>
+                <input type="submit" name="action_button" id="action_button" value="Add" class="btn btn-info" o/ onclick="window.location='{{ route("teacher.index") }}'">
             </div>
         </form>
         </div>
@@ -121,7 +121,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" name="ok_button" id="ok_button" class="btn btn-danger" onclick="window.location='{{ route("teachers.index") }}'">OK</button>
+                <button type="button" name="ok_button" id="ok_button" class="btn btn-danger" onclick="window.location='{{ route("teacher.index") }}'">OK</button>
             </div>
         </form>
         </div>
@@ -132,10 +132,10 @@
 </body>
 <script type="text/javascript">
 $(document).ready(function() {
-    var table = $('.teachers_datatable').DataTable({
+    var table = $('.teacher_lists').DataTable({
         processing: true,
         serverSide: true,
-        ajax: "{{ route('teachers.index') }}",
+        ajax: "{{ route('teacher.index') }}",
         columns: [
             {data: 'id', name: 'id'},
             {data: 'fullName', name: 'fullName'},
@@ -159,12 +159,12 @@ $(document).ready(function() {
 
         if($('#action').val() == 'Add')
         {
-            action_url = "{{ route('teachers.store') }}";
+            action_url = "{{ route('teacher.store') }}";
         }
 
         if($('#action').val() == 'Edit')
         {
-            action_url = "{{ route('teachers.update') }}";
+            action_url = "{{ route('teacher.update') }}";
         }
 
         $.ajax({
@@ -189,7 +189,7 @@ $(document).ready(function() {
                 {
                     html = '<div class="alert alert-success">' + data.success + '</div>';
                     $('#sample_form')[0].reset();
-                    $('#teachers').DataTable().ajax.reload();
+                    $('#teacher').DataTable().ajax.reload();
                 }
                 $('#form_result').html(html);
             },
@@ -204,9 +204,6 @@ $(document).ready(function() {
         event.preventDefault();
         var id = $(this).attr('id'); alert(id);
         $('#form_result').html('');
-
-
-
         $.ajax({
             url :"/teachers/edit/"+id+"/",
             headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
@@ -248,7 +245,7 @@ $(document).ready(function() {
             {
                 setTimeout(function(){
                 $('#confirmModal').modal('hide');
-                $('#teachers').DataTable().ajax.reload();
+                $('#teacher').DataTable().ajax.reload();
                 alert('Data Deleted');
                 }, 2000);
             }
